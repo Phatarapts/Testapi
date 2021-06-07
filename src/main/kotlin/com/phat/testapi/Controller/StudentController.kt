@@ -13,29 +13,36 @@ class StudentController{
     @GetMapping("/")
     fun helloMedium() = "Hello World"
 
-    @RequestMapping("/student/save")
-    fun save(): String{
+    @RequestMapping("/student/post")
+    fun post(): String{
         repository.save(Student(6401, "Asama", 101))
         repository.save(Student(6402, "Bsama", 101))
         repository.save(Student(6403, "Csama", 102))
         repository.save(Student(6404, "Dsama", 102))
         return "Save Student Done"
     }
-    @RequestMapping("/student/save/{id}")
-    fun save2(@PathVariable("id")id: Long): String {
+    @RequestMapping("/student/post/{id}")
+    fun postByID(@PathVariable("id")id: Long): String {
         repository.save(Student(id, "Asama", 101))
 
         return "Save Student Done"
     }
 
-    @RequestMapping("/student/findall")
-    fun findAll(): Iterable<Student> {
+    @GetMapping("/student/getall")
+    fun getAll(): Iterable<Student> {
         return repository.findAll()
     }
 
-    @RequestMapping("/student/find/id/{id}")
-    fun findById(@PathVariable("id") id: Long): Student {
+    @GetMapping("/student/get/id/{id}")
+    fun getById(@PathVariable("id") id: Long): Student {
         return repository.findById(id).get()
+    }
+
+    @RequestMapping("/student/patch/{id}")
+    fun patch(@PathVariable("id") id: Long): String{
+        repository.findById(id).get()
+        repository.save(Student(id,"Psama",102))
+        return "patch Done"
     }
 
     @RequestMapping("/student/deleteall")
