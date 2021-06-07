@@ -37,7 +37,12 @@ class StudentController{
     fun getById(@PathVariable("id") id: Long): Student {
         return repository.findById(id).get()
     }
-
+    @RequestMapping("/student/patch/{id}")
+    fun patch(@PathVariable("id") id: Long): String{
+        repository.findById(id).get()
+        repository.save(Student(id,"Psama",102))
+        return "patch Done"
+    }
 
 
     @RequestMapping("/student/deleteall")
