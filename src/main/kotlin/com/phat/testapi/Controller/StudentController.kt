@@ -13,7 +13,7 @@ class StudentController{
     @GetMapping("/")
     fun helloMedium() = "Hello World"
 
-    @RequestMapping("/student/post")
+    @PostMapping("/student/post")
     fun post(): String{
         repository.save(Student(6401, "Asama", 101))
         repository.save(Student(6402, "Bsama", 101))
@@ -37,6 +37,7 @@ class StudentController{
     fun getById(@PathVariable("id") id: Long): Student {
         return repository.findById(id).get()
     }
+
     @RequestMapping("/student/patch/{id}")
     fun patch(@PathVariable("id") id: Long): String{
         repository.findById(id).get()
@@ -45,13 +46,13 @@ class StudentController{
     }
 
 
-    @RequestMapping("/student/deleteall")
+    @DeleteMapping("/student/deleteall")
     fun deleteAll():String{
         repository.deleteAll()
         return "DeleteDone"
     }
 
-    @RequestMapping("/student/delete/{id}")
+    @RequestMapping(value = ["/student/delete/{id}"],method = [RequestMethod.DELETE])
     fun deleteByID(@PathVariable("id") id: Long): String {
         repository.deleteById(id)
         return "Delete "+id+" Done"
