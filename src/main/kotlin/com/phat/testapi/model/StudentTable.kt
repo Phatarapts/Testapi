@@ -1,14 +1,12 @@
 package com.phat.testapi.model
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "Student")
 open class Student{
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     var id: Long? = null
 
@@ -20,8 +18,8 @@ open class Student{
 
     protected constructor()
 
-    constructor(id : Long,name: String,classroom : Long){
-        this.id = id
+    constructor(name: String,classroom : Long){
+
         this.name = name
         this.classroom = classroom
     }

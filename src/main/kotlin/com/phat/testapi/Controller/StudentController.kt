@@ -4,6 +4,7 @@ import com.phat.testapi.model.Student
 import com.phat.testapi.repository.StudentRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
+import java.util.*
 
 @RestController
 class StudentController{
@@ -11,49 +12,44 @@ class StudentController{
     lateinit var repository : StudentRepository
 
     @GetMapping("/")
-    fun helloMedium() = "Hello World"
+    fun hello() = "Hello World"
 
-    @PostMapping("/student/post")
-    fun post(): String{
-        repository.save(Student(6401, "Asama", 101))
-        repository.save(Student(6402, "Bsama", 101))
-        repository.save(Student(6403, "Csama", 102))
-        repository.save(Student(6404, "Dsama", 102))
+    @PostMapping("/student/addinfo")
+    fun addStudentInfo(): String{
+        repository.save(Student( "Asama", 101))
+        repository.save(Student( "Bsama", 101))
+        repository.save(Student( "Csama", 102))
+        repository.save(Student( "Dsama", 102))
         return "Save Student Done"
     }
-    @RequestMapping("/student/post/{id}")
-    fun postByID(@PathVariable("id")id: Long): String {
-        repository.save(Student(id, "Asama", 101))
 
-        return "Save Student Done"
-    }
 
     @GetMapping("/student/getall")
-    fun getAll(): Iterable<Student> {
+    fun getAllStudentInfo(): Iterable<Student> {
         return repository.findAll()
     }
 
     @GetMapping("/student/get/id/{id}")
-    fun getById(@PathVariable("id") id: Long): Student {
+    fun getStudentInfoById(@PathVariable("id") id: Long): Student {
         return repository.findById(id).get()
     }
 
-    @RequestMapping("/student/patch/{id}")
-    fun patch(@PathVariable("id") id: Long): String{
-        repository.findById(id).get()
-        repository.save(Student(id,"Psama",102))
+    @PatchMapping("/student/patchinfo/{id}")
+    fun patchStudentInfo(@PathVariable("id") id: Long): String{
+        val studentdata : Optional<Student> = repository.findById(id)
+
         return "patch Done"
     }
 
 
     @DeleteMapping("/student/deleteall")
-    fun deleteAll():String{
+    fun deleteAllStudentInfo():String{
         repository.deleteAll()
         return "DeleteDone"
     }
 
     @RequestMapping(value = ["/student/delete/{id}"],method = [RequestMethod.DELETE])
-    fun deleteByID(@PathVariable("id") id: Long): String {
+    fun deleteStudentInfoByID(@PathVariable("id") id: Long): String {
         repository.deleteById(id)
         return "Delete "+id+" Done"
     }
