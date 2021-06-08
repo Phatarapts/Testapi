@@ -1,6 +1,6 @@
-package com.phat.testapi.Controller
+package com.phat.testapi.controller
 
-import com.phat.testapi.model.Professor
+import com.phat.testapi.model.ProfessorEntity
 import com.phat.testapi.repository.ProfessorRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PathVariable
@@ -14,18 +14,18 @@ class ProfessorController{
 
     @RequestMapping("/professor/save")
     fun save(): String{
-        repository.save(Professor(1001, "ATea", 101))
-        repository.save(Professor(1002, "BTea", 102))
+        repository.save(ProfessorEntity(1001, "ATea", 101))
+        repository.save(ProfessorEntity(1002, "BTea", 102))
         return "Save Professor Done"
     }
 
     @RequestMapping("/professor/findall")
-    fun findAll(): Iterable<Professor> {
+    fun findAll(): Iterable<ProfessorEntity> {
         return repository.findAll()
     }
 
     @RequestMapping("/professor/find/id/{id}")
-    fun findById(@PathVariable("id") id: Long): Professor {
+    fun findById(@PathVariable("id") id: Long): ProfessorEntity {
         return repository.findById(id).get()
     }
 }
