@@ -1,10 +1,8 @@
 package com.phat.testapi.repository
 
-import com.phat.testapi.model.Professor
+import com.phat.testapi.model.ClassroomEntity
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ProfessorRepository : CrudRepository<Professor, Long> {
-
-}
+interface ClassroomRepository : CrudRepository<ClassroomEntity, Long>

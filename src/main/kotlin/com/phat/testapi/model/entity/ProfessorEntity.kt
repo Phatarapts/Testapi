@@ -6,8 +6,8 @@ import javax.persistence.Id
 import javax.persistence.Table
 
 @Entity
-@Table(name = "Classroom")
-open class Classroom{
+@Table(name = "Professor")
+open class ProfessorEntity{
     @Id
     @Column(name = "id")
     var id: Long? = null
@@ -15,14 +15,14 @@ open class Classroom{
     @Column(name = "name")
     var name: String? =null
 
-    @Column(name = "professor")
-    var professor : Long? =null
+    @Column(name = "classroom")
+    var classroom : Long? =null
 
     protected constructor()
 
-    constructor(id : Long,name: String,professor : Long){
+    constructor(id : Long,name: String,classroom : Long){
         this.id = id
         this.name = name
-        this.professor = professor
+        this.classroom = classroom
     }
 }
