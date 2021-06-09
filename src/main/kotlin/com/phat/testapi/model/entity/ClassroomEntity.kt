@@ -6,13 +6,13 @@ import javax.persistence.*
 @Table(name = "Classroom")
 data class ClassroomEntity(
     @Id
-    @Column(name = "classID")
-    val classID: Long,
+    @Column(name = "classId")
+    val classId: Long,
 
     @Column(name = "className")
     var className: String,
 
-    @Column(name = "professorID")
-    val professorID: Long
+    @Column(name = "professorId")
+    val professorId: Long
 
 )

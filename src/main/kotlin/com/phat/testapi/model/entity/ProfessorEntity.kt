@@ -7,14 +7,14 @@ import javax.persistence.*
 data class ProfessorEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "professorID")
-    val professorID: Long? = null,
+    @Column(name = "professorId")
+    val professorId: Long? = null,
 
     @Column(name = "professorName")
     var professorName: String,
 
-    @Column(name = "classID")
-    val classID: Long
+    @Column(name = "classId")
+    val classId: Long
 
 
 )
