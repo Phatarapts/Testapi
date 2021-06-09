@@ -11,7 +11,7 @@ data class StudentEntity(
     val id: Long? = null,
 
     @Column(name = "name")
-    val name: String,
+    var name: String,
 
     @Column(name = "classroom")
     val classroom : Long

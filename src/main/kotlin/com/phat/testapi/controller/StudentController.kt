@@ -1,6 +1,8 @@
 package com.phat.testapi.controller
 
 import com.phat.testapi.model.entity.StudentEntity
+import com.phat.testapi.model.request.PatchName
+import com.phat.testapi.model.request.StudentRequest
 import com.phat.testapi.repository.StudentRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -32,10 +34,12 @@ class StudentController{
         return repository.findById(id).get()
     }
 
-    @PatchMapping("/patchinfo/{id}")
-    fun patchStudentInfo(@PathVariable("id") id: Long): String{
-        var studentdata : Optional<StudentEntity> = repository.findById(id)
+    @PatchMapping("/patchinfo")
+    fun patchStudentInfo(@RequestBody patch : PatchName): String{
 
+        var studentdata : StudentEntity = repository.findById(patch.id).get()
+        studentdata.name=patch.name
+        repository.save(studentdata)
         return "patch Done"
     }
 
@@ -49,6 +53,13 @@ class StudentController{
     @RequestMapping(value = ["/{id}"],method = [RequestMethod.DELETE])
     fun deleteStudentInfoByID(@PathVariable("id") id: Long): String {
         repository.deleteById(id)
-        return "Delete "+id+" Done"
+        return "Delete $id Done"
+    }
+
+    @PostMapping("/add")
+    fun addStudent(@RequestBody request : StudentRequest) : StudentRequest{
+
+        repository.save(StudentEntity(id = null,request.name,request.classroom))
+        return request
     }
 }
