@@ -1,7 +1,7 @@
 package com.phat.testapi.model.request
 
 data class ClassroomRequest(
-    val classID: Long,
+    val classId: Long,
     val className: String,
-    val professorID: Long
+    val professorId: Long
 )

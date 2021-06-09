@@ -3,52 +3,35 @@ package com.phat.testapi.controller
 import com.phat.testapi.model.entity.StudentEntity
 import com.phat.testapi.model.request.UpdateName
 import com.phat.testapi.model.request.InfoRequest
-import com.phat.testapi.repository.StudentRepository
-import org.springframework.beans.factory.annotation.Autowired
+import com.phat.testapi.sevices.StudentService
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/student")
-class StudentController {
-    @Autowired
-    lateinit var repository: StudentRepository
+class StudentController(val service: StudentService) {
 
-    @PostMapping("/")
-    fun addStudent(@RequestBody request: InfoRequest): StudentEntity {
-        return repository.save(
-            StudentEntity(
-                classID = request.classroom,
-                studentName = "${request.title} ${request.firstName} ${request.lastName}"
-            )
-        )
-    }
+    @PostMapping
+    fun addStudent(@RequestBody request: InfoRequest): StudentEntity = service.addNew(request)
 
-    @GetMapping("/")
-    fun showAllStudentInfo(): Iterable<StudentEntity> {
-        return repository.findAll()
-    }
+    @GetMapping
+    fun showAllStudentInfo(): Iterable<StudentEntity> = service.getAll()
 
     @GetMapping("/{id}")
-    fun showStudentInfoById(@PathVariable("id") id: Long): StudentEntity {
-        return repository.findById(id).get()
-    }
+    fun showOneStudentInfo(@PathVariable("id") id: Long): StudentEntity = service.getOne(id)
 
     @PatchMapping("/{id}")
-    fun updateStudentName(@RequestBody update: UpdateName, @PathVariable("id") id: Long): StudentEntity {
-        val studentData: StudentEntity = repository.findById(id).get()
-        studentData.studentName = update.name
-        return repository.save(studentData)
-    }
+    fun updateStudentByID(@RequestBody update: UpdateName, @PathVariable("id") id: Long): StudentEntity =
+        service.updateName(update, id)
 
     @DeleteMapping
     fun deleteAllStudentInfo(): String {
-        repository.deleteAll()
-        return "DeleteDone"
+        service.deleteAll()
+        return "Delete Done"
     }
 
     @RequestMapping(value = ["/{id}"], method = [RequestMethod.DELETE])
-    fun deleteStudentInfoByID(@PathVariable("id") id: Long): String {
-        repository.deleteById(id)
+    fun deleteOneStudentInfo(@PathVariable("id") id: Long): String {
+        service.deleteOne(id)
         return "Delete $id Done"
     }
 
