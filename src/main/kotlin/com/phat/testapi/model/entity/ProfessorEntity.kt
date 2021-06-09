@@ -1,28 +1,20 @@
-package com.phat.testapi.model
+package com.phat.testapi.model.entity
 
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "Professor")
-open class ProfessorEntity{
+data class ProfessorEntity(
     @Id
-    @Column(name = "id")
-    var id: Long? = null
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "professorID")
+    val professorID: Long? = null,
 
-    @Column(name = "name")
-    var name: String? =null
+    @Column(name = "professorName")
+    var professorName: String,
 
-    @Column(name = "classroom")
-    var classroom : Long? =null
+    @Column(name = "classID")
+    val classID: Long
 
-    protected constructor()
 
-    constructor(id : Long,name: String,classroom : Long){
-        this.id = id
-        this.name = name
-        this.classroom = classroom
-    }
-}
+)
