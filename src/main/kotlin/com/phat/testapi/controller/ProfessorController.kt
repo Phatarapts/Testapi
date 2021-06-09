@@ -1,31 +1,54 @@
 package com.phat.testapi.controller
 
-import com.phat.testapi.model.ProfessorEntity
+import com.phat.testapi.model.entity.ProfessorEntity
+import com.phat.testapi.model.request.InfoRequest
+import com.phat.testapi.model.request.UpdateName
 import com.phat.testapi.repository.ProfessorRepository
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
-class ProfessorController{
+@RequestMapping("/professor")
+class ProfessorController {
     @Autowired
-    lateinit var repository : ProfessorRepository
+    lateinit var repository: ProfessorRepository
 
-    @RequestMapping("/professor/save")
-    fun save(): String{
-        repository.save(ProfessorEntity(1001, "ATea", 101))
-        repository.save(ProfessorEntity(1002, "BTea", 102))
-        return "Save Professor Done"
+    @PostMapping("/")
+    fun addProfessor(@RequestBody request: InfoRequest): ProfessorEntity {
+        return repository.save(
+            ProfessorEntity(
+                classID = request.classroom,
+                professorName = "${request.title} ${request.firstName} ${request.lastName}"
+            )
+        )
     }
 
-    @RequestMapping("/professor/findall")
-    fun findAll(): Iterable<ProfessorEntity> {
+    @GetMapping("/")
+    fun showAllProfessorInfo(): Iterable<ProfessorEntity> {
         return repository.findAll()
     }
 
-    @RequestMapping("/professor/find/id/{id}")
-    fun findById(@PathVariable("id") id: Long): ProfessorEntity {
+    @GetMapping("/{id}")
+    fun showProfessorInfoById(@PathVariable("id") id: Long): ProfessorEntity {
         return repository.findById(id).get()
+    }
+
+    @PatchMapping("/{id}")
+    fun updateProfessorName(@RequestBody update: UpdateName, @PathVariable("id") id: Long): ProfessorEntity {
+        val professorData: ProfessorEntity = repository.findById(id).get()
+        professorData.professorName = update.name
+        return repository.save(professorData)
+    }
+
+    @DeleteMapping
+    fun deleteAllProfessorInfo(): String {
+        repository.deleteAll()
+        return "DeleteDone"
+    }
+
+    @RequestMapping(value = ["/{id}"], method = [RequestMethod.DELETE])
+    fun deleteProfessorInfoByID(@PathVariable("id") id: Long): String {
+        repository.deleteById(id)
+        return "Delete $id Done"
     }
 }
