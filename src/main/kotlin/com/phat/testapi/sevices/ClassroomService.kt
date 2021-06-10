@@ -31,4 +31,5 @@ class ClassroomService {
     fun getOneClass(id: Long): ClassroomEntity = repository.findById(id).get()
     fun deleteAll() = repository.deleteAll()
     fun deleteOne(id: Long) = repository.deleteById(id)
+    fun existClassroom(id: Long): Boolean = repository.existsById(id)
 }

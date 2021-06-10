@@ -16,6 +16,9 @@ class ProfessorController(val service: ProfessorService) {
     @GetMapping("/")
     fun showAllProfessorInfo(): Iterable<ProfessorEntity> = service.getAll()
 
+    @GetMapping("/check/{id}")
+    fun showOneExist(@PathVariable("id") id: Long): Boolean = service.existProfessor(id)
+
     @GetMapping("/{id}")
     fun showProfessorInfoById(@PathVariable("id") id: Long): ProfessorEntity = service.getOne(id)
 
