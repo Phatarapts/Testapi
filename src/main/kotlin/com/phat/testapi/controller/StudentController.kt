@@ -3,6 +3,7 @@ package com.phat.testapi.controller
 import com.phat.testapi.model.entity.StudentEntity
 import com.phat.testapi.model.request.UpdateName
 import com.phat.testapi.model.request.InfoRequest
+import com.phat.testapi.model.response.Student
 import com.phat.testapi.sevices.StudentService
 import org.springframework.web.bind.annotation.*
 
@@ -14,7 +15,12 @@ class StudentController(val service: StudentService) {
     fun addStudent(@RequestBody request: InfoRequest): StudentEntity = service.addNew(request)
 
     @GetMapping
-    fun showAllStudentInfo(): Iterable<StudentEntity> = service.getAll()
+    fun showAllStudentInfo(): Iterable<Student> = service.getAll().map {
+        Student(
+            id = it.studentId.toString(),
+            name = it.studentName,
+        )
+    }
 
     @GetMapping("/{id}")
     fun showOneStudentInfo(@PathVariable("id") id: Long): StudentEntity = service.getOne(id)
