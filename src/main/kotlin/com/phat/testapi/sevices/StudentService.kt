@@ -5,7 +5,6 @@ import com.phat.testapi.model.request.InfoRequest
 import com.phat.testapi.model.request.UpdateName
 import com.phat.testapi.model.response.Response
 import com.phat.testapi.repository.StudentRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 
@@ -45,8 +44,8 @@ class StudentService(
 
     fun existStudent(id: Long): Boolean = studentRepository.existsById(id)
 
-    fun regisClass(stdId: Long, classId: Long): String {
-        return if (existStudent(stdId)) {
+    fun regisClass(stdId: Long, classId: Long) {
+        if (existStudent(stdId)) {
             if (classroomService.existClassroom(classId)) {
                 val studentData: StudentEntity = studentRepository.findById(stdId).get()
                 val update = StudentEntity(
@@ -56,12 +55,14 @@ class StudentService(
                     updateDate = LocalDate.now()
                 )
                 studentRepository.save(update)
-                "Done"
             } else {
-                throw RuntimeException()
+                throw NotFoundClassRoomException("Not found classroom $classId")
             }
         } else {
-            throw RuntimeException()
+            throw NotFoundStudentException("Not found student $stdId")
         }
     }
 }
+
+class NotFoundClassRoomException(override val message: String?) : RuntimeException()
+class NotFoundStudentException(override val message: String?) : RuntimeException()
