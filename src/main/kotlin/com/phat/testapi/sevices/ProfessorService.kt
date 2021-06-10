@@ -32,4 +32,6 @@ class ProfessorService {
     fun deleteAll() = repository.deleteAll()
 
     fun deleteOne(id: Long) = repository.deleteById(id)
+
+    fun existProfessor(id: Long): Boolean = repository.existsById(id)
 }
