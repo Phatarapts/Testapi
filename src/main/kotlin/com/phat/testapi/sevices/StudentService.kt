@@ -1,12 +1,15 @@
 package com.phat.testapi.sevices
 
+import com.phat.testapi.exception.NotFoundDataException
 import com.phat.testapi.model.entity.StudentEntity
 import com.phat.testapi.model.request.InfoRequest
 import com.phat.testapi.model.request.UpdateName
+import com.phat.testapi.model.response.StudentResponse
 import com.phat.testapi.repository.StudentRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import java.util.*
 
 
 @Service
@@ -31,7 +34,21 @@ class StudentService {
 
     fun getAll(): Iterable<StudentEntity> = repository.findAll()
 
-    fun getOne(id: Long): StudentEntity = repository.findById(id).get()
+    fun getOne(id: Long): StudentEntity = repository.findById(id).orElseThrow {
+        throw NotFoundDataException("Not found student id: $id in database")
+    }
+
+    fun findStudent(studentId: Long): StudentResponse {
+        val existStudent = repository.findById(studentId).orElseThrow {
+            throw NotFoundDataException("Not found student id: $studentId at table Student")
+        }
+        return StudentResponse(
+            id = existStudent.studentId!!,
+            name = existStudent.studentName,
+            updateDate = existStudent.updateDate
+
+        )
+    }
 
     fun deleteAll() = repository.deleteAll()
 
