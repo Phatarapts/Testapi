@@ -11,12 +11,12 @@ import java.time.LocalDate
 
 
 @Service
-class StudentService {
-    @Autowired
-    lateinit var repository: StudentRepository
-    lateinit var service: ClassroomService
+class StudentService(
+    private val studentRepository: StudentRepository,
+    private val classroomService: ClassroomService
+) {
 
-    fun addNew(request: InfoRequest): StudentEntity = repository.save(
+    fun addNew(request: InfoRequest): StudentEntity = studentRepository.save(
         StudentEntity(
             studentName = "${request.title} ${request.firstName} ${request.lastName}",
             postDate = LocalDate.now()
@@ -24,34 +24,39 @@ class StudentService {
     )
 
     fun updateName(update: UpdateName, id: Long): StudentEntity {
-        val studentData: StudentEntity = repository.findById(id).get()
+        val studentData: StudentEntity = studentRepository.findById(id).get()
         studentData.studentName = update.name
         studentData.updateDate = LocalDate.now()
-        return repository.save(studentData)
+        return studentRepository.save(studentData)
     }
 
-    fun getAll(): Iterable<Response> = repository.findAll().map {
+    fun getAll(): Iterable<Response> = studentRepository.findAll().map {
         Response(
             id = it.studentId,
             name = it.studentName
         )
     }
 
-    fun getOne(id: Long): StudentEntity = repository.findById(id).get()
+    fun getOne(id: Long): StudentEntity = studentRepository.findById(id).get()
 
-    fun deleteAll() = repository.deleteAll()
+    fun deleteAll() = studentRepository.deleteAll()
 
-    fun deleteOne(id: Long) = repository.deleteById(id)
+    fun deleteOne(id: Long) = studentRepository.deleteById(id)
 
-    fun existStudent(id: Long): Boolean = repository.existsById(id)
+    fun existStudent(id: Long): Boolean = studentRepository.existsById(id)
 
     fun regisClass(stdId: Long, classId: Long): String {
         return if (existStudent(stdId)) {
-            if (service.existClassroom(classId)) {
-                repository.save(StudentEntity(classId = classId))
-                "regis done"
-            } else "classroom doesn't exist"
-        } else
-            "student doesn't exist"
+            if (classroomService.existClassroom(classId)) {
+                val studentData: StudentEntity = repository.findById(id).get()
+                studentData.studentName = update.name
+                studentRepository.save(StudentEntity(classId = classId))
+                "Don"
+            } else {
+                throw RuntimeException()
+            }
+        } else {
+            throw RuntimeException()
+        }
     }
 }
