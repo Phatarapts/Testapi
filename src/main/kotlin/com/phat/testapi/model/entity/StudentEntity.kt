@@ -13,10 +13,10 @@ data class StudentEntity(
     val studentId: Long? = null,
 
     @Column(name = "studentName")
-    var studentName: String? = null,
+    var studentName: String,
 
     @Column(name = "classId")
-    val classId: Long? = null,
+    var classId: Long? = null,
 
     @Column(name = "postDate")
     @JsonFormat(pattern = "dd::MM::yyyy")
