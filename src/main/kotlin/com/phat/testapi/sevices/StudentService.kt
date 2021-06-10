@@ -48,10 +48,15 @@ class StudentService(
     fun regisClass(stdId: Long, classId: Long): String {
         return if (existStudent(stdId)) {
             if (classroomService.existClassroom(classId)) {
-                val studentData: StudentEntity = repository.findById(id).get()
-                studentData.studentName = update.name
-                studentRepository.save(StudentEntity(classId = classId))
-                "Don"
+                val studentData: StudentEntity = studentRepository.findById(stdId).get()
+                val update = StudentEntity(
+                    studentId = studentData.studentId,
+                    classId = classId,
+                    studentName = studentData.studentName,
+                    updateDate = LocalDate.now()
+                )
+                studentRepository.save(update)
+                "Done"
             } else {
                 throw RuntimeException()
             }
