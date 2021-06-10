@@ -6,6 +6,8 @@ import com.phat.testapi.model.request.UpdateName
 import com.phat.testapi.repository.StudentRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.time.LocalDate
+
 
 @Service
 class StudentService {
@@ -15,13 +17,15 @@ class StudentService {
     fun addNew(request: InfoRequest): StudentEntity = repository.save(
         StudentEntity(
             classId = request.classroom,
-            studentName = "${request.title} ${request.firstName} ${request.lastName}"
+            studentName = "${request.title} ${request.firstName} ${request.lastName}",
+            postDate = LocalDate.now()
         )
     )
 
     fun updateName(update: UpdateName, id: Long): StudentEntity {
         val studentData: StudentEntity = repository.findById(id).get()
         studentData.studentName = update.name
+        studentData.updateDate = LocalDate.now()
         return repository.save(studentData)
     }
 

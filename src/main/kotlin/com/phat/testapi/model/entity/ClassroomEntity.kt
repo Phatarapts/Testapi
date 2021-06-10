@@ -14,5 +14,4 @@ data class ClassroomEntity(
 
     @Column(name = "professorId")
     val professorId: Long
-
 )
