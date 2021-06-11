@@ -1,10 +1,12 @@
 package com.phat.testapi.model.entity
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import org.hibernate.annotations.Immutable
 import java.time.LocalDate
 import javax.persistence.*
 
 @Entity
+
 @Table(name = "Student")
 data class StudentEntity(
     @Id

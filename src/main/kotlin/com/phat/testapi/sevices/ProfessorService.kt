@@ -14,7 +14,6 @@ class ProfessorService {
 
     fun addNew(request: InfoRequest): ProfessorEntity = repository.save(
         ProfessorEntity(
-            classId = request.classroom,
             professorName = "${request.title} ${request.firstName} ${request.lastName}"
         )
     )

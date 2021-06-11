@@ -45,24 +45,18 @@ class StudentService(
     fun existStudent(id: Long): Boolean = studentRepository.existsById(id)
 
     fun regisClass(stdId: Long, classId: Long) {
-        if (existStudent(stdId)) {
-            if (classroomService.existClassroom(classId)) {
-                val studentData: StudentEntity = studentRepository.findById(stdId).get()
-                val update = StudentEntity(
-                    studentId = studentData.studentId,
-                    classId = classId,
-                    studentName = studentData.studentName,
-                    updateDate = LocalDate.now()
-                )
-                studentRepository.save(update)
-            } else {
-                throw NotFoundClassRoomException("Not found classroom $classId")
-            }
+        val studentData: StudentEntity =
+            studentRepository.findById(stdId).orElseThrow { NotFoundStudentException("Not found student $stdId") }
+        if (classroomService.existClassroom(classId)) {
+            studentData.classId = classId
+            studentRepository.save(studentData)
         } else {
-            throw NotFoundStudentException("Not found student $stdId")
+            throw NotFoundClassRoomException("Not found classroom $classId")
         }
     }
+
 }
 
 class NotFoundClassRoomException(override val message: String?) : RuntimeException()
 class NotFoundStudentException(override val message: String?) : RuntimeException()
+

@@ -16,7 +16,7 @@ data class ProfessorEntity(
     var professorName: String,
 
     @Column(name = "classId")
-    val classId: Long,
+    val classId: Long? = null,
 
     @Column(name = "postDate")
     @JsonFormat(pattern = "dd::MM::yyyy")
