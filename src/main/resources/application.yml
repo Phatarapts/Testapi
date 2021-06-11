@@ -13,10 +13,24 @@ spring:
     url: 'jdbc:mysql://localhost:3306/DB'
     username: root
     password: keep1234
-    testOnBorrow: true
-    validationQuery: SELECT 1
-    tomcat.test-on-borrow: true
+    tomcat:
+      test-on-borrow: true
+      validationQuery: SELECT 1
 
   jpa:
-    properties.hibernate.dialect: 'org.hibernate.dialect.MySQL5InnoDBDialect'
-    hibernate.ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: false
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        generate_statistics: false
+        query.immutable_entity_update_query_handling_mode: exception
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+        #e.g. validate | update | create | create-drop
+        #validate: validate the schema, makes no changes to the database.
+        #update: update the schema.
+        #create: creates the schema, destroying previous data.
+      #create-drop: drop the schema when the SessionFactory is closed explicitly, typically when the application is stopped.
+      #none: does nothing with the schema, makes no changes to the database
