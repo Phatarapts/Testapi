@@ -18,14 +18,12 @@ class StudentService(
     fun addNew(request: InfoRequest): StudentEntity = studentRepository.save(
         StudentEntity(
             studentName = "${request.title} ${request.firstName} ${request.lastName}",
-            postDate = LocalDate.now()
         )
     )
 
     fun updateName(update: UpdateName, id: Long): StudentEntity {
         val studentData: StudentEntity = studentRepository.findById(id).get()
         studentData.studentName = update.name
-        studentData.updateDate = LocalDate.now()
         return studentRepository.save(studentData)
     }
 

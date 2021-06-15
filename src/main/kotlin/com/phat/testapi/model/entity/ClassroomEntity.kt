@@ -13,7 +13,8 @@ data class ClassroomEntity(
     var className: String,
 
     @Column(name = "professorId")
-    val professorId: Long
+    val professorId: Long,
 
-
-)
+    @ManyToOne(fetch = FetchType.EAGER)
+    var professor: ProfessorEntity?=null
+):CommonEntity()
