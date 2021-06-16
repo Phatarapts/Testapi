@@ -12,12 +12,10 @@ class ProfessorService {
     @Autowired
     lateinit var professorRepository: ProfessorRepository
 
-    fun getLefttJoin(){
-        
-    }
 
     fun addNew(request: InfoRequest): ProfessorEntity = professorRepository.save(
         ProfessorEntity(
+
             professorName = "${request.title} ${request.firstName} ${request.lastName}"
         )
     )

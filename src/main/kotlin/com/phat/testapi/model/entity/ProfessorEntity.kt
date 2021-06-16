@@ -14,7 +14,8 @@ data class ProfessorEntity(
     @Column(name = "professorName")
     var professorName: String,
 
-    @OneToMany(mappedBy = "professor", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
-    
-    var classroom: List<ClassroomEntity>? = null
-): CommonEntity()
+    /*@OneToMany
+    var classrooms: ClassroomEntity?=null,
+    @Column(name = "classId")
+    var classId: Long? = null*/
+) : CommonEntity()

@@ -15,7 +15,6 @@ data class StudentEntity(
     @Column(name = "studentName")
     var studentName: String,
 
-    @Column(name = "classId")
-    var classId: Long? = null,
-
-): CommonEntity()
+    @ManyToOne
+    var classroom: ClassroomEntity? = null
+) : CommonEntity()

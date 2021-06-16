@@ -14,5 +14,5 @@ abstract class CommonEntity {
     var updateDate: LocalDateTime? = null
 
     @Version
-    var version=1
+    var version = 1
 }
