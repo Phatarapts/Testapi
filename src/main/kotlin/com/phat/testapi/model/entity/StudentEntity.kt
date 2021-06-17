@@ -15,6 +15,9 @@ data class StudentEntity(
     @Column(name = "studentName")
     var studentName: String,
 
+    @Column(name = "studentMajor")
+    var studentMajor: String,
+
     @ManyToOne
     var classroom: ClassroomEntity? = null
 ) : CommonEntity()

@@ -5,6 +5,8 @@ import com.phat.testapi.model.request.InfoRequest
 import com.phat.testapi.model.request.UpdateName
 import com.phat.testapi.model.response.Response
 import com.phat.testapi.repository.StudentRepository
+import org.springframework.data.domain.Example
+import org.springframework.data.domain.ExampleMatcher
 import org.springframework.stereotype.Service
 
 
@@ -17,6 +19,7 @@ class StudentService(
     fun addNew(request: InfoRequest): StudentEntity {
         val studentData = StudentEntity(
             studentName = "${request.title} ${request.firstName} ${request.lastName}",
+            studentMajor = "${request.major}"
             //classroom = request.classId
         )
         return studentRepository.save(
@@ -44,6 +47,7 @@ class StudentService(
     fun deleteOne(id: Long) = studentRepository.deleteById(id)
 
     fun existStudent(id: Long): Boolean = studentRepository.existsById(id)
+
 
     /*fun regisClass(stdId: Long, classId: Long) {
         val studentData: StudentEntity =
