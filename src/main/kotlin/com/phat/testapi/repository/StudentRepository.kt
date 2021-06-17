@@ -9,7 +9,4 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface StudentRepository : JpaRepository<StudentEntity, Long> {
-    fun findAll()
-
-}
+interface StudentRepository : JpaRepository<StudentEntity, Long>
