@@ -6,7 +6,6 @@ import com.phat.testapi.model.request.UpdateName
 import com.phat.testapi.model.response.Response
 import com.phat.testapi.repository.StudentRepository
 import org.springframework.stereotype.Service
-import java.time.LocalDate
 
 
 @Service
@@ -15,17 +14,19 @@ class StudentService(
     private val classroomService: ClassroomService
 ) {
 
-    fun addNew(request: InfoRequest): StudentEntity = studentRepository.save(
-        StudentEntity(
+    fun addNew(request: InfoRequest): StudentEntity {
+        val studentData = StudentEntity(
             studentName = "${request.title} ${request.firstName} ${request.lastName}",
-            postDate = LocalDate.now()
+            //classroom = request.classId
         )
-    )
+        return studentRepository.save(
+            studentData
+        )
+    }
 
     fun updateName(update: UpdateName, id: Long): StudentEntity {
         val studentData: StudentEntity = studentRepository.findById(id).get()
         studentData.studentName = update.name
-        studentData.updateDate = LocalDate.now()
         return studentRepository.save(studentData)
     }
 
@@ -44,7 +45,7 @@ class StudentService(
 
     fun existStudent(id: Long): Boolean = studentRepository.existsById(id)
 
-    fun regisClass(stdId: Long, classId: Long) {
+    /*fun regisClass(stdId: Long, classId: Long) {
         val studentData: StudentEntity =
             studentRepository.findById(stdId).orElseThrow { NotFoundStudentException("Not found student $stdId") }
         if (classroomService.existClassroom(classId)) {
@@ -53,7 +54,7 @@ class StudentService(
         } else {
             throw NotFoundClassRoomException("Not found classroom $classId")
         }
-    }
+    }*/
 
 }
 

@@ -13,13 +13,17 @@ class ClassroomService {
     @Autowired
     lateinit var repository: ClassroomRepository
 
-    fun addClass(request: ClassroomRequest): ClassroomEntity = repository.save(
-        ClassroomEntity(
+    fun addClass(request: ClassroomRequest): ClassroomEntity {
+
+        val classData = ClassroomEntity(
             classId = request.classId,
             className = request.className,
-            professorId = request.professorId
+            //professorId = request.professorId
         )
-    )
+        return repository.save(
+            classData
+        )
+    }
 
     fun updateClassName(update: ClassroomRequest, id: Long): ClassroomEntity {
         val studentData: ClassroomEntity = repository.findById(id).get()

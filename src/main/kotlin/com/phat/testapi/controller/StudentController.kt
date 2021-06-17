@@ -18,9 +18,9 @@ class StudentController(val service: StudentService) {
     private val logger = LoggerFactory.getLogger(StudentController::class.java)
 
     @PostMapping
-    fun addStudent(@RequestBody request: InfoRequest): StudentEntity = service.addNew(request)
+    fun addStudent(@RequestBody request: InfoRequest) = service.addNew(request)
 
-    @PostMapping("/{stdId}/{classId}")
+    /*@PostMapping("/{stdId}/{classId}")
     fun registerClass(
         @PathVariable("stdId") stdId: Long,
         @PathVariable("classId") classId: Long
@@ -35,7 +35,7 @@ class StudentController(val service: StudentService) {
             logger.error("Error: ${ex.message}", ex)
         }
         ResponseEntity(null, HttpStatus.NOT_FOUND)
-    }
+    }*/
 
 
     @GetMapping
@@ -62,5 +62,6 @@ class StudentController(val service: StudentService) {
         service.deleteOne(id)
         return "Delete $id Done"
     }
+
 
 }

@@ -1,5 +1,7 @@
 package com.phat.testapi.model.entity
 
+import org.hibernate.annotations.Fetch
+import org.hibernate.annotations.FetchMode
 import javax.persistence.*
 
 @Entity
@@ -12,8 +14,8 @@ data class ClassroomEntity(
     @Column(name = "className")
     var className: String,
 
-    @Column(name = "professorId")
-    val professorId: Long
-
-
-)
+    /* @Column(name = "professorId")
+     var professorId: Long,*/
+    @ManyToOne
+    var professor: ProfessorEntity? = null
+) : CommonEntity()

@@ -10,27 +10,29 @@ import org.springframework.stereotype.Service
 @Service
 class ProfessorService {
     @Autowired
-    lateinit var repository: ProfessorRepository
+    lateinit var professorRepository: ProfessorRepository
 
-    fun addNew(request: InfoRequest): ProfessorEntity = repository.save(
+
+    fun addNew(request: InfoRequest): ProfessorEntity = professorRepository.save(
         ProfessorEntity(
+
             professorName = "${request.title} ${request.firstName} ${request.lastName}"
         )
     )
 
     fun updateName(update: UpdateName, id: Long): ProfessorEntity {
-        val professorData: ProfessorEntity = repository.findById(id).get()
+        val professorData: ProfessorEntity = professorRepository.findById(id).get()
         professorData.professorName = update.name
-        return repository.save(professorData)
+        return professorRepository.save(professorData)
     }
 
-    fun getAll(): Iterable<ProfessorEntity> = repository.findAll()
+    fun getAll(): Iterable<ProfessorEntity> = professorRepository.findAll()
 
-    fun getOne(id: Long): ProfessorEntity = repository.findById(id).get()
+    fun getOne(id: Long): ProfessorEntity = professorRepository.findById(id).get()
 
-    fun deleteAll() = repository.deleteAll()
+    fun deleteAll() = professorRepository.deleteAll()
 
-    fun deleteOne(id: Long) = repository.deleteById(id)
+    fun deleteOne(id: Long) = professorRepository.deleteById(id)
 
-    fun existProfessor(id: Long): Boolean = repository.existsById(id)
+    fun existProfessor(id: Long): Boolean = professorRepository.existsById(id)
 }
