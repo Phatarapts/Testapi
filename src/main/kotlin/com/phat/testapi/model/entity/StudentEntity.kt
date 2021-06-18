@@ -13,10 +13,10 @@ data class StudentEntity(
     val studentId: Long? = null,
 
     @Column(name = "studentName")
-    var studentName: String,
+    var studentName: String? = null,
 
     @Column(name = "studentMajor")
-    var studentMajor: String,
+    var studentMajor: String? = null,
 
     @ManyToOne
     var classroom: ClassroomEntity? = null

@@ -4,12 +4,8 @@ import com.phat.testapi.model.entity.StudentEntity
 import com.phat.testapi.model.request.UpdateName
 import com.phat.testapi.model.request.InfoRequest
 import com.phat.testapi.model.response.Response
-import com.phat.testapi.sevices.NotFoundClassRoomException
-import com.phat.testapi.sevices.NotFoundStudentException
 import com.phat.testapi.sevices.StudentService
 import org.slf4j.LoggerFactory
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -19,6 +15,12 @@ class StudentController(val service: StudentService) {
 
     @PostMapping
     fun addStudent(@RequestBody request: InfoRequest) = service.addNew(request)
+
+    @GetMapping("/search_info/{info}")
+    fun search(@PathVariable("info") info: String) = service.searchByString(info)
+
+    @GetMapping("/search/{id}")
+    fun search(@PathVariable("id") id: Long) = service.searchById(id)
 
     /*@PostMapping("/{stdId}/{classId}")
     fun registerClass(
