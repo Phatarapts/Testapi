@@ -5,6 +5,7 @@ import javax.persistence.*
 
 @Entity
 @SequenceGenerator(name = "student_seq")
+
 @Table(name = "Student")
 data class StudentEntity(
     @Id

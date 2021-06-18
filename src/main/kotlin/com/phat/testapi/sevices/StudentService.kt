@@ -65,6 +65,10 @@ class StudentService(
         return studentRepository.findAll(example)
     }
 
+    fun searchByStringUseNaming(data: String): MutableList<StudentEntity> {
+        return studentRepository.findAllByStudentNameContainingOrStudentMajorContainingIgnoreCase(data, data)
+    }
+
     /*fun regisClass(stdId: Long, classId: Long) {
         val studentData: StudentEntity =
             studentRepository.findById(stdId).orElseThrow { NotFoundStudentException("Not found student $stdId") }
