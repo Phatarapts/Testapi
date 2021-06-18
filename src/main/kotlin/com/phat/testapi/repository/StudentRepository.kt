@@ -18,6 +18,4 @@ import org.springframework.transaction.annotation.Propagation
 
 
 @Repository
-interface StudentRepository : JpaRepository<StudentEntity, Long> {
-    fun findAllBy()
-}
+interface StudentRepository : JpaRepository<StudentEntity, Long>

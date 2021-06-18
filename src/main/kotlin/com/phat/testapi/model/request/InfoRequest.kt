@@ -6,5 +6,4 @@ data class InfoRequest(
     val lastName: String,
     val classId: Long,
     val major: String
-    //val clsStudent: List<Long>
 )

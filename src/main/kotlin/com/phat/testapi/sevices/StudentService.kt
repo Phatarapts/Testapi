@@ -19,7 +19,7 @@ class StudentService(
     fun addNew(request: InfoRequest): StudentEntity {
         val studentData = StudentEntity(
             studentName = "${request.title} ${request.firstName} ${request.lastName}",
-            studentMajor = "${request.major}"
+            studentMajor = request.major
             //classroom = request.classId
         )
         return studentRepository.save(
@@ -48,6 +48,22 @@ class StudentService(
 
     fun existStudent(id: Long): Boolean = studentRepository.existsById(id)
 
+    fun searchByString(data: String): MutableList<StudentEntity> {
+        val studentInfo = StudentEntity(studentName = data, studentMajor = data)
+        val matcher = ExampleMatcher.matchingAny()
+            .withIgnorePaths("version")
+            .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase()
+        val example = Example.of(studentInfo, matcher)
+        return studentRepository.findAll(example)
+    }
+
+    fun searchById(id: Long): MutableList<StudentEntity> {
+        val studentInfo = StudentEntity(studentId = id)
+        val matcher = ExampleMatcher.matchingAll()
+            .withIgnorePaths("version")
+        val example = Example.of(studentInfo, matcher)
+        return studentRepository.findAll(example)
+    }
 
     /*fun regisClass(stdId: Long, classId: Long) {
         val studentData: StudentEntity =
