@@ -1,8 +1,8 @@
 package com.phat.testapi.controller
 
 import com.phat.testapi.model.entity.StudentEntity
-import com.phat.testapi.model.request.UpdateName
 import com.phat.testapi.model.request.InfoRequest
+import com.phat.testapi.model.request.UpdateName
 import com.phat.testapi.model.response.Response
 import com.phat.testapi.sevices.StudentService
 import org.slf4j.LoggerFactory
@@ -17,10 +17,13 @@ class StudentController(val service: StudentService) {
     fun addStudent(@RequestBody request: InfoRequest) = service.addNew(request)
 
     @GetMapping("/search_info/{info}")
-    fun search(@PathVariable("info") info: String) = service.searchByString(info)
+    fun search(@PathVariable("info") info: String) = service.searchByStringUseNaming(info)
 
     @GetMapping("/search/{id}")
     fun search(@PathVariable("id") id: Long) = service.searchById(id)
+
+    /*@GetMapping("/search_test_info/{info}")
+    fun search2(@PathVariable("info") info: String) = service.searchById2(info)*/
 
     /*@PostMapping("/{stdId}/{classId}")
     fun registerClass(
