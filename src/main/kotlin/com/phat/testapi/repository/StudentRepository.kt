@@ -3,6 +3,7 @@ package com.phat.testapi.repository
 
 import com.phat.testapi.model.entity.StudentEntity
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Propagation
@@ -24,5 +25,8 @@ interface StudentRepository : JpaRepository<StudentEntity, Long> {
         studentMajor: String
     ): MutableList<StudentEntity>
 
-
+    //@Query("SELECT COUNT(*) FROM Student s WHERE s.studentId=:id is not null")
+    //fun countByID(
+    //    id: Long
+    //)
 }

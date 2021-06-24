@@ -5,17 +5,27 @@ import com.phat.testapi.model.request.InfoRequest
 import com.phat.testapi.model.request.UpdateName
 import com.phat.testapi.model.response.Response
 import com.phat.testapi.repository.StudentRepository
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Example
 import org.springframework.data.domain.ExampleMatcher
+import org.springframework.scheduling.annotation.Async
+import org.springframework.scheduling.annotation.EnableAsync
+import org.springframework.scheduling.annotation.EnableScheduling
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
-
+@EnableAsync
+@EnableScheduling
 @Service
 class StudentService(
     private val studentRepository: StudentRepository,
     private val classroomService: ClassroomService
 ) {
-
+    val logger: Logger = LoggerFactory.getLogger("com.example.app")
+    val dateTime: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
     fun addNew(request: InfoRequest): StudentEntity {
         val studentData = StudentEntity(
             studentName = "${request.title} ${request.firstName} ${request.lastName}",
@@ -33,7 +43,15 @@ class StudentService(
         return studentRepository.save(studentData)
     }
 
+    //@Async
+    //@Scheduled(fixedDelay = 200)
+    @Scheduled(fixedRate = 1)
+    //@Scheduled(cron = "1/1 * * * * *")
+    //@Scheduled(initialDelay=10000, fixedRate=5000)
+    //@Scheduled(cron = "\${my.cron.value}")
     fun getAll(): Iterable<Response> = studentRepository.findAll().map {
+        logger.info("Thread name: {}", Thread.currentThread().name)
+        logger.info("Time - {}", dateTime.format(LocalDateTime.now()))
         Response(
             id = it.studentId,
             name = it.studentName
@@ -42,6 +60,8 @@ class StudentService(
 
     fun getOne(id: Long): StudentEntity = studentRepository.findById(id).get()
 
+    //@Scheduled(fixedDelay = 5000)
+    //@Scheduled(fixedRate = 5000)
     fun deleteAll() = studentRepository.deleteAll()
 
     fun deleteOne(id: Long) = studentRepository.deleteById(id)
