@@ -25,8 +25,8 @@ interface StudentRepository : JpaRepository<StudentEntity, Long> {
         studentMajor: String
     ): MutableList<StudentEntity>
 
-    @Query("SELECT COUNT(*) FROM Student s WHERE s.studentId=:id is not null")
-    fun countByID(
-        id: Long
-    )
+    //@Query("SELECT COUNT(*) FROM Student s WHERE s.studentId=:id is not null")
+    //fun countByID(
+    //    id: Long
+    //)
 }
