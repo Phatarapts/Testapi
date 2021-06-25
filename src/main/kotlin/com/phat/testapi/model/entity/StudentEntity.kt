@@ -1,8 +1,6 @@
 package com.phat.testapi.model.entity
 
 
-import org.hibernate.annotations.NamedQueries
-import org.hibernate.annotations.NamedQuery
 import javax.persistence.*
 
 @Entity
