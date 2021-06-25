@@ -15,6 +15,7 @@ import org.springframework.retry.annotation.Recover
 import org.springframework.retry.annotation.Retryable
 import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.scheduling.annotation.EnableScheduling
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -76,8 +77,6 @@ class StudentService(
     }
 
 
-    //@Scheduled(fixedDelay = 5000)
-    //@Scheduled(fixedRate = 5000)
     fun deleteAll() = studentRepository.deleteAll()
 
     fun deleteOne(id: Long) = studentRepository.deleteById(id)
