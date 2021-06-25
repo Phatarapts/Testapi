@@ -4,8 +4,10 @@ import com.phat.testapi.model.entity.StudentEntity
 import com.phat.testapi.model.request.InfoRequest
 import com.phat.testapi.model.request.UpdateName
 import com.phat.testapi.model.response.Response
+import com.phat.testapi.configuration.AppConfig
 import com.phat.testapi.sevices.StudentService
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.retry.annotation.EnableRetry
 import org.springframework.web.bind.annotation.*
 
@@ -14,6 +16,10 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/student")
 class StudentController(val service: StudentService) {
     private val logger = LoggerFactory.getLogger(StudentController::class.java)
+    @Value("\${app.info.name}")
+    lateinit var name: String
+    @Value("\${app.info.email}")
+    lateinit var email: String
 
     @PostMapping
     fun addStudent(@RequestBody request: InfoRequest) = service.addNew(request)
@@ -23,6 +29,16 @@ class StudentController(val service: StudentService) {
 
     @GetMapping("/search/{id}")
     fun search(@PathVariable("id") id: Long) = service.searchById(id)
+
+    @GetMapping("/plus/{num}")//unresolved ref
+    fun plus(@PathVariable("num")num: Long): Number {
+        //return num.plus(AppConfig.plus.toInt())
+        return 1
+    }
+    //@GetMapping("/plus")
+    //fun plus1(num: Long): Number{
+    //    return num.plus(AppConfig.plus.toInt())
+    //}
 
     /*@GetMapping("/search_test_info/{info}")
     fun search2(@PathVariable("info") info: String) = service.searchById2(info)*/
