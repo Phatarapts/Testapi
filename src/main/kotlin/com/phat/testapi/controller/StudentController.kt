@@ -6,8 +6,10 @@ import com.phat.testapi.model.request.UpdateName
 import com.phat.testapi.model.response.Response
 import com.phat.testapi.sevices.StudentService
 import org.slf4j.LoggerFactory
+import org.springframework.retry.annotation.EnableRetry
 import org.springframework.web.bind.annotation.*
 
+@EnableRetry
 @RestController
 @RequestMapping("/student")
 class StudentController(val service: StudentService) {
@@ -47,7 +49,9 @@ class StudentController(val service: StudentService) {
     fun showAllStudentInfo(): Iterable<Response> = service.getAll()
 
     @GetMapping("/{id}")
+
     fun showOneStudentInfo(@PathVariable("id") id: Long): StudentEntity = service.getOne(id)
+
 
     @GetMapping("/check/{id}")
     fun showOneExist(@PathVariable("id") id: Long): Boolean = service.existStudent(id)

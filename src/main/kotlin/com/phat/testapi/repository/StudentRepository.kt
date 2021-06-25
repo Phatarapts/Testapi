@@ -3,7 +3,6 @@ package com.phat.testapi.repository
 
 import com.phat.testapi.model.entity.StudentEntity
 import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Propagation

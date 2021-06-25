@@ -9,16 +9,19 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.Example
 import org.springframework.data.domain.ExampleMatcher
-import org.springframework.scheduling.annotation.Async
+import org.springframework.retry.annotation.Backoff
+import org.springframework.retry.annotation.EnableRetry
+import org.springframework.retry.annotation.Recover
+import org.springframework.retry.annotation.Retryable
 import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.scheduling.annotation.EnableScheduling
-import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @EnableAsync
 @EnableScheduling
+@EnableRetry
 @Service
 class StudentService(
     private val studentRepository: StudentRepository,
@@ -45,10 +48,11 @@ class StudentService(
 
     //@Async
     //@Scheduled(fixedDelay = 200)
-    @Scheduled(fixedRate = 1)
+    //@Scheduled(fixedRate = 1)
     //@Scheduled(cron = "1/1 * * * * *")
     //@Scheduled(initialDelay=10000, fixedRate=5000)
     //@Scheduled(cron = "\${my.cron.value}")
+
     fun getAll(): Iterable<Response> = studentRepository.findAll().map {
         logger.info("Thread name: {}", Thread.currentThread().name)
         logger.info("Time - {}", dateTime.format(LocalDateTime.now()))
@@ -56,9 +60,21 @@ class StudentService(
             id = it.studentId,
             name = it.studentName
         )
+
     }
 
-    fun getOne(id: Long): StudentEntity = studentRepository.findById(id).get()
+    @Retryable(maxAttempts = 3, backoff = Backoff(delay = 500))//ใส่value
+    fun getOne(id: Long): StudentEntity {
+        logger.info("Time - {}", dateTime.format(LocalDateTime.now()))
+        return studentRepository.findById(id).get()
+    }
+
+    @Recover
+    fun showError(): Nothing {
+        logger.info("Time - {}", dateTime.format(LocalDateTime.now()))
+        throw NotFoundIdException()
+    }
+
 
     //@Scheduled(fixedDelay = 5000)
     //@Scheduled(fixedRate = 5000)
@@ -104,4 +120,5 @@ class StudentService(
 
 class NotFoundClassRoomException(override val message: String?) : RuntimeException()
 class NotFoundStudentException(override val message: String?) : RuntimeException()
+class NotFoundIdException : RuntimeException()
 
