@@ -38,11 +38,52 @@ internal class ClassroomControllerTest {
             .build()
     }
 
+    /**
+     * validate name
+     * validate thai id
+     * validate surname
+     * validate age
+     * validate  ....
+     *
+     *
+     * group validate
+     * RequestValidateServie {
+     *  function validate(name,thaiid,surname, age, ...): boolean {
+     *     validate name
+     *     validate thai id
+     *      validate surname
+     *     validate age
+     *     validate  ....
+     *    return boolean
+     *  }
+     *
+     *  controller {
+     *   validateservice
+     *
+     *   func {
+     *    valiate.valid( .... )
+     *   }
+     *
+     *  }
+     *
+     *  test controller {
+     *    fakeValidateService
+     *
+     *    fun test(){
+     *     mock { fakeValidateService.valid ()} return true
+     *     expected ...
+     *
+     *    }
+     *  }
+     * }
+     */
     @Test
     fun `get class room success`() {
+        // stubbing get class room
         every { classroomService.getAll() } returns arrayListOf(
             classOne, classTwo
         )
+
         mockMvc.perform(
             MockMvcRequestBuilders.get("/classroom/")
         )
@@ -103,6 +144,24 @@ internal class ClassroomControllerTest {
             .andExpect(
                 MockMvcResultMatchers.content().json(
                     """{"message":"ok"}"""
+                )
+            )
+    }
+
+    @Test
+    fun `show class room info by id should be response http status ok and success response`() {
+        // stubging
+        every { classroomService.getOneClass(1) } returns classOne
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.get(
+                "/classroom/1"
+            )
+        ).andDo(MockMvcResultHandlers.print())
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(
+                MockMvcResultMatchers.content().json(
+                    """{"classId":1,"className":"Math","professor":{"professorId":1,"professorName":"Mr.A","postDate":null,"updateDate":null,"version":1},"postDate":null,"updateDate":null,"version":1}"""
                 )
             )
     }
