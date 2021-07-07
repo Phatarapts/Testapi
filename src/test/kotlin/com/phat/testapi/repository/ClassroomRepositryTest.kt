@@ -23,13 +23,17 @@ class ClassroomRepositryTest @Autowired constructor(val classroomRepository: Cla
         1,
         "Mr.A"
     )
+    val classOne = ClassroomEntity(
+        1, "Math", profA
+    )
+    val classTwo = ClassroomEntity(
+        2, "Math 2", profA
+    )
 
     @BeforeEach
     fun initUseCase() {
         val classRooms: List<ClassroomEntity> = arrayListOf(
-            ClassroomEntity(
-                1, "Math", profA
-            )
+            classOne
         )
         classroomRepository.saveAll(classRooms)
     }
@@ -40,16 +44,26 @@ class ClassroomRepositryTest @Autowired constructor(val classroomRepository: Cla
     }
 
     @Test
-    fun saveAll_success() {
+    fun `saveAll_success`() {
+
         val classes: List<ClassroomEntity> = arrayListOf(
-            ClassroomEntity(
-                2, "Math 2", profA
-            )
+            classTwo
         )
         val classesRooms = classroomRepository.saveAll(classes)
 
-        Assertions.assertTrue(profA.professorName == classes.first {
+        Assertions.assertTrue(profA.professorName == classesRooms.first {
             it.classId == 2L
         }.professor?.professorName)
+    }
+
+    @Test
+    fun `findAll_success`() {
+        classroomRepository.save(classTwo)
+        Assertions.assertIterableEquals(
+            classroomRepository.findAll(),
+            arrayListOf(
+                classOne, classTwo
+            )
+        )
     }
 }
