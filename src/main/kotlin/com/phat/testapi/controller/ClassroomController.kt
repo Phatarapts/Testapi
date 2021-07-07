@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.*
 class ClassroomController(val service: ClassroomService) {
 
     @PostMapping("/")
-    fun addClassroom(@RequestBody request: ClassroomRequest): ClassroomEntity = service.addClass(request)
+    fun addClassroom(@RequestBody request: ClassroomRequest): String {
+        service.addClass(request)
+        return "{\"message\":\"ok\"}"
+    }
 
     @GetMapping("/")
     fun showAllClassroomInfo(): Iterable<ClassroomEntity> = service.getAll()
@@ -33,4 +36,5 @@ class ClassroomController(val service: ClassroomService) {
         service.deleteOne(id)
         return "Delete $id Done"
     }
+
 }

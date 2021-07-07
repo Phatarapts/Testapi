@@ -48,7 +48,9 @@ internal class ClassroomControllerTest {
         )
             .andDo(MockMvcResultHandlers.print())
             .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.content().json("""[
+            .andExpect(
+                MockMvcResultMatchers.content().json(
+                    """[
    {
       "classId":1,
       "className":"Math",
@@ -77,7 +79,31 @@ internal class ClassroomControllerTest {
       "updateDate":null,
       "version":1
    }
-]"""))
+]"""
+                )
+            )
 
+    }
+
+    @Test
+    fun `add class success`() {
+        every { classroomService.addClass(any()) } returns mockk()
+        mockMvc.perform(
+            MockMvcRequestBuilders.post("/classroom/")
+                .content(
+                    """
+                    { "classId": 3, "className": "English for comunication", "professorId": 2}
+                """.trimIndent()
+                )
+                .header("X-Correlation-Id", "X-Correlation-Id")
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andDo(MockMvcResultHandlers.print())
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(
+                MockMvcResultMatchers.content().json(
+                    """{"message":"ok"}"""
+                )
+            )
     }
 }
